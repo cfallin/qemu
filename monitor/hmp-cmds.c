@@ -2308,7 +2308,7 @@ void hmp_virtio_status(Monitor *mon, const QDict *qdict)
                    s->use_guest_notifier_mask ? "true" : "false");
     monitor_printf(mon, "  vm_running:              %s\n",
                    s->vm_running ? "true" : "false");
-    monitor_printf(mon, "  num_vqs:                 %ld\n", s->num_vqs);
+    monitor_printf(mon, "  num_vqs:                 %" PRId64 "\n", s->num_vqs);
     monitor_printf(mon, "  queue_sel:               %d\n",
                    s->queue_sel);
     monitor_printf(mon, "  isr:                     %d\n", s->isr);
@@ -2327,19 +2327,19 @@ void hmp_virtio_status(Monitor *mon, const QDict *qdict)
         monitor_printf(mon, "  VHost:\n");
         monitor_printf(mon, "    nvqs:           %d\n",
                        s->vhost_dev->nvqs);
-        monitor_printf(mon, "    vq_index:       %ld\n",
+        monitor_printf(mon, "    vq_index:       %" PRId64 "\n",
                        s->vhost_dev->vq_index);
-        monitor_printf(mon, "    max_queues:     %lu\n",
+        monitor_printf(mon, "    max_queues:     %" PRIu64 "\n",
                        s->vhost_dev->max_queues);
-        monitor_printf(mon, "    n_mem_sections: %ld\n",
+        monitor_printf(mon, "    n_mem_sections: %" PRId64 "\n",
                        s->vhost_dev->n_mem_sections);
-        monitor_printf(mon, "    n_tmp_sections: %ld\n",
+        monitor_printf(mon, "    n_tmp_sections: %" PRId64 "\n",
                        s->vhost_dev->n_tmp_sections);
-        monitor_printf(mon, "    backend_cap:    %lu\n",
+        monitor_printf(mon, "    backend_cap:    %" PRIu64 "\n",
                        s->vhost_dev->backend_cap);
         monitor_printf(mon, "    log_enabled:    %s\n",
                        s->vhost_dev->log_enabled ? "true" : "false");
-        monitor_printf(mon, "    log_size:       %lu\n",
+        monitor_printf(mon, "    log_size:       %" PRIu64 "\n",
                        s->vhost_dev->log_size);
         monitor_printf(mon, "    Features:          ");
         hmp_virtio_dump_features(mon, s->vhost_dev->features);
@@ -2370,10 +2370,10 @@ void hmp_vhost_queue_status(Monitor *mon, const QDict *qdict)
     monitor_printf(mon, "%s:\n", path);
     monitor_printf(mon, "  device_name:          %s (vhost)\n",
                    s->name);
-    monitor_printf(mon, "  kick:                 %ld\n", s->kick);
-    monitor_printf(mon, "  call:                 %ld\n", s->call);
+    monitor_printf(mon, "  kick:                 %" PRId64 "\n", s->kick);
+    monitor_printf(mon, "  call:                 %" PRId64 "\n", s->call);
     monitor_printf(mon, "  VRing:\n");
-    monitor_printf(mon, "    num:         %ld\n", s->num);
+    monitor_printf(mon, "    num:         %" PRId64 "\n", s->num);
     monitor_printf(mon, "    desc:        0x%016"PRIx64"\n", s->desc);
     monitor_printf(mon, "    desc_phys:   0x%016"PRIx64"\n",
                    s->desc_phys);
