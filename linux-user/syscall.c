@@ -11853,12 +11853,22 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
 
 #ifdef TARGET_NR_madvise
     case TARGET_NR_madvise:
-        /* A straight passthrough may not be safe because qemu sometimes
-           turns private file-backed mappings into anonymous mappings.
-           This will break MADV_DONTNEED.
-           This is a hint, so ignoring and returning success is ok.  */
-        return 0;
-#endif
+#ifdef __linux__
+        /* If the host is Linux, and the guest and host page sizes are the
+         * same, then mmaps will have been passed through one-to-one, so we can
+         * rely on the madvise semantics of the host. Note that the advice
+         * argument (arg3) is fully architecture-independent. */
+        if (TARGET_PAGE_SIZE == sysconf(_SC_PAGESIZE)) {
+            return get_errno(madvise(g2h_untagged(arg1), (size_t)arg2, (int)arg3));
+        } else {
+            return -TARGET_EINVAL;
+        }
+#else   // __linux__
+        /* We will not be able to emulate the Linux-specific semantics, so we
+         * raise an error. */
+        return -TARGET_EINVAL;
+#endif  // !__linux__
+#endif  // TARGET_NR_madvise
 #ifdef TARGET_NR_fcntl64
     case TARGET_NR_fcntl64:
     {
